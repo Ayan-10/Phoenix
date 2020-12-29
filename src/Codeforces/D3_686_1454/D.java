@@ -1,16 +1,11 @@
 package Codeforces.D3_686_1454;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class D {
     public static void main(String[] args) throws IOException {
 
-        sieve();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int t = Integer.parseInt(reader.readLine());
         while (t-- > 0) {
@@ -18,17 +13,18 @@ public class D {
             HashMap<Long,Integer> p = getFactorization(n);
             long k = getHigh(p);
             int m = p.get(k);
-            int lastele = 1;
+            long lastele = 1;
             for (Map.Entry entry : p.entrySet()) {
                 if((long)entry.getKey()!=k){
-                    lastele*= Math.pow((long) entry.getKey(),(int) entry.getValue());
+                        lastele *= Math.pow((long) entry.getKey(), (int) entry.getValue());
                 }
             }
+            System.out.println(m);
             for(int i=0; i<m-1; i++){
                 System.out.print(k+" ");
             }
             System.out.print(lastele*k+" ");
-            //System.out.println();
+            System.out.println();
         }
     }
 
@@ -43,63 +39,45 @@ public class D {
         }
         return res;
     }
-    static final long MAXN = 99999999L;
-
-    static long spf[] = new long[(int) MAXN];
-    // stores smallest prime factor for every number
-    //static ArrayList<Long> spf =new ArrayList<>();
-
-    // Calculating SPF (Smallest Prime Factor) for every
-    // number till MAXN.
-    // Time Complexity : O(nloglogn)
-    static void sieve() {
-        spf[1]= (int) 1l;
-        for (long i = 2; i < MAXN; i++)
-
-            // marking smallest prime factor for every
-            // number to be itself.
-            spf[(int) i]= i;
-
-        // separately marking spf for every even
-        // number as 2
-        for (int i = 4; i < MAXN; i += 2)
-            spf[i]= 2l;
-
-        for (long i = 3; i * i < MAXN; i++) {
-            // checking if i is prime
-            if (spf[(int) i] == i) {
-                // marking SPF for all numbers divisible by i
-                for (long j = i * i; j < MAXN; j += i)
-
-                    // marking spf[j] if it is not
-                    // previously marked
-                    if (spf[(int) j] == j)
-                        spf[(int) j]= i;
-            }
-        }
-    }
-
     // A O(log n) function returning primefactorization
     // by dividing by smallest prime factor at every step
     static HashMap<Long,Integer> getFactorization(long x)
     {
         HashMap<Long,Integer> ret = new HashMap<Long, Integer>();
-        while (x != 1)
-        {
-            if (ret.containsKey(spf[(int)x])) {
+        // Print the number of 2s that divide n
+        int count = 0;
 
-                // If number is present in freqMap,
-                // incrementing it's count by 1
-                ret.put(spf[(int)x], ret.get(spf[(int)x]) + 1);
-            }
-            else {
+        // count the number of times 2 divides
+        while (!(x % 2 > 0)) {
+            // equivalent to n=n/2;
+            x >>= 1;
 
-                // If integer is not present in freqMap,
-                // putting this integer to freqMap with 1 as it's value
-                ret.put(spf[(int)x], 1);
-            }
-            x = x / spf[(int)x];
+            count++;
         }
+
+        // if 2 divides it
+        if (count > 0) {
+            ret.put(2l,count);
+        }
+
+        // check for all the possible
+        // numbers that can divide it
+        for (long i = 3; i <= (long) Math.sqrt(x); i += 2) {
+            count = 0;
+            while (x % i == 0) {
+                count++;
+                x = x / i;
+            }
+            if (count > 0) {
+                ret.put(i,count);
+            }
+        }
+
+        // if n at the end is a prime number.
+        if (x > 2) {
+            ret.put(x,1);
+        }
+
         return ret;
     }
 }
