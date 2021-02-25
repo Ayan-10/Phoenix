@@ -3,75 +3,38 @@ package Codeforces.D2_694_1471;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class B {
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int t = Integer.parseInt(reader.readLine());
-        while (t-- > 0) {
-            String st[] = reader.readLine().trim().split("\\s+");
-            int n = Integer.parseInt(st[0]);
-            int m = Integer.parseInt(st[1]);
-            String s[] = reader.readLine().trim().split("\\s+");
-            int p = 0;
-            int a[] = new int[n];
-            for (int i = 0; i < n; i++) {
-                a[i] = Integer.parseInt(s[p++]);
+    public static void main (String[] args) throws java.lang.Exception
+    {
+        Scanner sc=new Scanner(System.in);
+        int T=sc.nextInt();
+        StringBuilder sb=new StringBuilder();
+        for(int t=0;t<T;t++){
+            int n=sc.nextInt();
+            int x=sc.nextInt();
+            List<long[]> a=new ArrayList<>();
+            for(int i=0;i<n;i++){
+                a.add(new long[]{sc.nextInt(),1});
             }
-            int min = Integer.MAX_VALUE;
-            int j=-1;
-            for (int i = 0; i < n; i++) {
-                if(a[i]%m!=0){
-                   min=0;
-                }else{
-                    int q=a[i];
-                    int c=0;
-                    while(q%m==0){
-                        c++;
-                        q=q/m;
-                    }
-                    if(c<min){
-                        min=c;
-                        j=i;
-                    }
+            long sum=0;
+            boolean flag=true;
+            for(int i=0;i<a.size();i++){
+                if(flag && a.get(i)[0]%x!=0){
+                    flag=false;
                 }
-            }
-            int sum=0;
-            for (int i = 0; i < n; i++) {
-                sum+=a[i];
-            }
-            int i=0;
-            while(i>-1 && i<j){
-                int x = a[i];
-                int c=1;
-                int w=m;
-                while(x%m==0 && min+1>=c){
-                    x=x/m;
-                    for(int y=0; y<w; y++){
 
-                        sum+=x;
+                sum+=a.get(i)[0]*a.get(i)[1];
+                if(flag){
+                    a.add(new long[]{a.get(i)[0]/x,a.get(i)[1]*x});
+                }
+            }
 
-                    }
-                    w=w*w;
-                    c++;
-                }
-                i++;
-            }
-            while(i>-1 && j<n){
-                int x=a[j];
-                int c=1;
-                int w=m;
-                while(x%m==0 && min>=c){
-                    x=x/m;
-                    for(int y=0; y<w; y++){
-                        sum+=x;
-                    }
-                    w=w*w;
-                    c++;
-                }
-                j++;
-            }
-            System.out.println(sum);
+            sb.append(sum+"\n");
         }
+        System.out.print(sb.toString());
     }
 }

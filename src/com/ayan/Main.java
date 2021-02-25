@@ -9,28 +9,26 @@ public class Main {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int t = Integer.parseInt(reader.readLine());
         while (t-- >0){
-            String st[] = reader.readLine().trim().split("\\s+");
-            int n = Integer.parseInt(st[0]);
-            //int V = Integer.parseInt(st[1]);
-            String s[] = reader.readLine().trim().split("\\s+");
-            int p =0;
-            int a[] = new int[n];
-            for (int i=0; i<n; i++){
-                a[i]= Integer.parseInt(s[p++]);
+//            String st[] = reader.readLine().trim().split("\\s+");
+//            int n = Integer.parseInt(st[0]);
+//            //int V = Integer.parseInt(st[1]);
+//            String s[] = reader.readLine().trim().split("\\s+");
+//            int p =0;
+            int n = 6;
+            ArrayList<Integer> a = new ArrayList<>();
+            a.add(4);
+            a.add(2);
+            a.add(5);
+            a.add(3);
+            a.add(6);
+            a.add(1);
+            a.remove(3);
+            if(a.size()>5) {
+                a.remove(5);
             }
-
-            int j=0;
-            for (int i=0; i<n; i++){
-                if(a[i]>3){
-                    if(a[i]>4){
-                        j=i;
-                        break;
-                    }
-                }
-                System.out.println(i);
+            for(int p : a){
+                System.out.print(p+" ");
             }
-
-
         }
     }
 }
